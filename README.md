@@ -68,3 +68,12 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 3. 在路由模块中，将新闻详情的路由地址和组件页面对应起来
 
 ## 实现新闻详情的页面布局和数据渲染
+
+## 单独封装一个 comment.vue 的评论子组件
+1. 先创建一个单独的comment.vue组件模板
+2. 在需要使用comment组件的页面中，先动手导入comment组件
+  + `import comment from './comment.vue'`
+3. 在父组件中，使用`components`属性。将刚才导入comment组件注册为自己的子组件
+4. 将注册子组件时候的注册名称以标签形式在页面中引用即可
+
+## 获取所有的评论数据显示到页面中

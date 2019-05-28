@@ -7,6 +7,9 @@ import router from './router/index.js'
 // 2.1导入vue-resource
 import VueResource from 'vue-resource'
 
+// 导入时间插件
+import moment from 'moment'
+
 // 导入App组件
 import app from './App.vue'
 
@@ -24,6 +27,12 @@ Vue.component(SwipeItem.name, SwipeItem)
 
 // 1.2安装路由
 Vue.use(vueRouter)
+
+// 定义全局过滤器
+Vue.filter('dateFormat', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
+  return moment(dataStr).format(pattern)
+})
+
 // 2.2安装vue-resource
 Vue.use(VueResource)
 require('./Mock/mock.js')

@@ -10,6 +10,9 @@ import VueResource from 'vue-resource'
 // 导入时间插件
 import moment from 'moment'
 
+// 安装图片预览插件
+import VuePreview from 'vue-preview'
+
 // 导入App组件
 import app from './App.vue'
 
@@ -18,13 +21,20 @@ import './lib/mui/css/mui.min.css'
 import './lib/mui/css/icons-extra.css'
 
 // 按需导入mint-ui中的组件
-import { Header, Swipe, SwipeItem, Button } from 'mint-ui'
-import 'mint-ui/lib/style.css'
+// import { Header, Swipe, SwipeItem, Button, Lazyload } from 'mint-ui'
+// import 'mint-ui/lib/style.css'
+// Vue.component(Header.name, Header)
+// Vue.component(Swipe.name, Swipe)
+// Vue.component(SwipeItem.name, SwipeItem)
+// Vue.component(Button.name, Button)
+// Vue.use(Lazyload)
 
-Vue.component(Header.name, Header)
-Vue.component(Swipe.name, Swipe)
-Vue.component(SwipeItem.name, SwipeItem)
-Vue.component(Button.name, Button)
+// 全局导入
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+Vue.use(MintUI)
+
+Vue.use(VuePreview)
 
 // 1.2安装路由
 Vue.use(vueRouter)

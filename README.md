@@ -1,33 +1,4 @@
-# demo
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# mango的app案例
 
 ## 用传统方式把修改过后的代码上传到git
 - git add .
@@ -51,7 +22,10 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ## 制作首页轮播图布局
 
 ## 加载首页轮播图数据
-1. 获取数据，使用mock
+1. 获取数据，使用vue-resource
+2. 使用v-resource的this.$http.get获取数据
+3. 获取到的数据，到保存在data身上
+4. 使用v-for渲染每个item项
 
 ## 九宫格改造为六宫格
 
@@ -77,3 +51,23 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 4. 将注册子组件时候的注册名称以标签形式在页面中引用即可
 
 ## 获取所有的评论数据显示到页面中
+
+## 实现点击加载更多评论的功能
+1. 为加载更多按钮绑定点击事件，在事件中，请求下一页数据
+2. 点击加载更多，让pageIndex++，然后重新调用this.getComments()方法，重新获取最新一页的数据
+3. 为了防止新数据覆盖老数据的情况，我们点击加载更多的时候，每当获取到新数据，应该让老数据调用数组concat方法，拼接新数组
+
+## 发表评论
+1. 把文本框做双向数据绑定
+2. 为发表按钮绑定一个事件
+3. 校验评论内容是否为空，如果为空则Toast提示用户
+4. 通过vue-resource发送一个请求，把评论内容提交给服务器并保存
+5. 当发表评论完成后，重新刷新列表，以查看最近的评论
+  + 如果调用getComments方法重新刷新评论列表的话，可能只能得到 最后一页的评论，前几页的评论获取不到
+  + 换一种思路：当评论成功后，在客户端手动拼接出一个最新的评论对象，然后调用数组的unshift方法，把最新的评论追加到date中comments的开头；这样就能完美实现刷新评论列表的需求
+
+## 改造图片分析按钮为路由的链接并显示对应的组件页面
+
+## 绘制图片列表组件页面结构并美化样式
+1. 制作顶部的滑动条
+2. 制作底部的图片列表

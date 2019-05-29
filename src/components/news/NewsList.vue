@@ -1,9 +1,9 @@
 <template>
     <div>
         <ul class="mui-table-view">
-		    <li class="mui-table-view-cell mui-media" v-for="item in data" :key="item.id">
+		    <li class="mui-table-view-cell mui-media" v-for="item in newsList" :key="item.id">
 				<router-link :to="'/home/newsinfo/'+item.id">
-					<img class="mui-media-object mui-pull-left" :src="item.url"/>
+					<img class="mui-media-object mui-pull-left" :src="item.img_url"/>
 					<div class="mui-media-body">
 						<h1>{{item.title}}</h1>
 					    <p class='mui-ellipsis'>
@@ -19,12 +19,10 @@
 
 <script>
 import { Toast } from 'mint-ui'
-import axios from 'axios'
 export default {
     data(){
         return {
-            newsList:[],
-            data:''
+            newsList:[]
         }
     },
 
@@ -33,14 +31,15 @@ export default {
     },
 
     methods: {
-        getNewsList(){//获取轮播图的方法
-            
-        }
-    },
-    mounted(){
-        axios.get('/list').then((res) => {
-                this.data=res.data.newslist
+        getNewsList(){
+            this.$http.get('http://www.liulongbin.top:3005/api/getnewslist').then(res => {
+                if(res.body.status === 0){
+                    this.newsList = res.body.message;
+                }else {
+                    Toast('加载失败');
+                }
             })
+        }
     }
 }
 </script>

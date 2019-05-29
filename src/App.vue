@@ -2,7 +2,7 @@
 <div class="app-container">
 
   <!-- 顶部herader区域 -->
-  <mt-header fixed title="mango的小店"></mt-header>
+  <mt-header fixed title="mango的app案例"></mt-header>
 
   <!-- 中间路由router-view区域 -->
   <transition>

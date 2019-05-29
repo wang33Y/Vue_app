@@ -2,8 +2,8 @@
     <div>
         <!-- 轮播图区域 -->
         <mt-swipe :auto="4000">
-            <mt-swipe-item v-for="(item,index) in data" :key="index">
-                <img :src="item.url"/>
+            <mt-swipe-item v-for="item in lunbotuList" :key="item.id">
+                <img :src="item.img"/>
             </mt-swipe-item>
         </mt-swipe>
 
@@ -12,9 +12,9 @@
 		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><router-link to="/home/newslist">
                 <img src="../../images/menu1.png" alt="">
 		        <div class="mui-media-body">新闻资讯</div></router-link></li>
-		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><router-link to="/home/photolist">
 		        <img src="../../images/menu2.png" alt="">
-	            <div class="mui-media-body">图片分享</div></a></li>
+	            <div class="mui-media-body">图片分享</div></router-link></li>
 		    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
 		        <img src="../../images/menu3.png" alt="">
 	            <div class="mui-media-body">商品购买</div></a></li>
@@ -34,12 +34,10 @@
 <script>
 
 import { Toast } from 'mint-ui'
-import axios from 'axios'
 export default {
     data(){
         return {
-            lunbotuList:[],
-            data:''
+            lunbotuList:[]
         }
     },
 
@@ -48,14 +46,15 @@ export default {
     },
 
     methods: {
-        getLunbotu(){//获取轮播图的方法
-            
-        }
-    },
-    mounted(){
-        axios.get('/list').then((res) => {
-                this.data=res.data.result
+        getLunbotu(){
+            this.$http.get('http://www.liulongbin.top:3005/api/getlunbo').then(res => {
+                if(res.body.status === 0){
+                    this.lunbotuList = res.body.message;
+                }else {
+                    Toast('加载轮播图失败');
+                }
             })
+        }
     }
 }
 </script>

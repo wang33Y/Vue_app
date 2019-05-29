@@ -36,7 +36,11 @@ Vue.filter('dateFormat', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
 
 // 2.2安装vue-resource
 Vue.use(VueResource)
-require('./Mock/mock.js')
+
+// 这只请求根路径
+Vue.http.options.root = 'http://www.liulongbin.top:3005'
+// 全局设置post时候表单数据格式组织形式 application/x-www-form-urlencoded
+Vue.http.options.emulateJSON = true
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */

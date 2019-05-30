@@ -21,7 +21,7 @@ import { Toast } from 'mint-ui'
 export default {
     data(){
         return {
-            id: this.$route.params.id,//将url地址中传递过来的id值，挂载到data上，方便以后调用
+            id: this.$route.params.id, //将url地址中传递过来的id值，挂载到data上，方便以后调用
             newsinfo:{}
         }
     },

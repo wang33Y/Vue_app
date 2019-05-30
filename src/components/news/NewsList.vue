@@ -32,7 +32,7 @@ export default {
 
     methods: {
         getNewsList(){
-            this.$http.get('http://www.liulongbin.top:3005/api/getnewslist').then(res => {
+            this.$http.get('api/getnewslist').then(res => {
                 if(res.body.status === 0){
                     this.newsList = res.body.message;
                 }else {

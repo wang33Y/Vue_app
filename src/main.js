@@ -6,6 +6,8 @@ import vueRouter from 'vue-router'
 import router from './router/index.js'
 // 2.1导入vue-resource
 import VueResource from 'vue-resource'
+// 注册vuex
+import Vuex, { Store } from 'vuex'
 
 // 导入时间插件
 import moment from 'moment'
@@ -39,6 +41,41 @@ Vue.use(VuePreview)
 // 1.2安装路由
 Vue.use(vueRouter)
 
+Vue.use(Vuex)
+var car = JSON.parse(localStorage.getItem('car') || '[]')
+var store = new Store({
+  state: {
+    car: car
+  },
+
+  mutations: {
+    addToCar (state, goodsinfo) {
+      var flag = false
+      state.car.some(item => {
+        if (item.id == goodsinfo.id) {
+          item.count += parseInt(goodsinfo.count)
+          flag = true
+          return true
+        }
+      })
+      if (!flag) {
+        state.car.push(goodsinfo)
+      }
+      localStorage.setItem('car', JSON.stringify(state.car))
+    }
+  },
+
+  getters: {
+    getAllCount (state) {
+      var c = 0
+      state.car.forEach(item => {
+        c += item.count
+      })
+      return c
+    }
+  }
+})
+
 // 定义全局过滤器
 Vue.filter('dateFormat', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
   return moment(dataStr).format(pattern)
@@ -57,5 +94,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   render: c => c(app),
-  router// 1.4挂载路由对象到实例上
+  router, // 1.4挂载路由对象到实例上
+  store
 })

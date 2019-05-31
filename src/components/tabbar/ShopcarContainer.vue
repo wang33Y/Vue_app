@@ -2,17 +2,17 @@
     <div class="shopcar-container">
         <div class="goods-list">
             <!-- 商品列表区域 -->
-            <div class="mui-card">
+            <div class="mui-card" v-for="(item,index) in goodslist" :key="item.id">
 			    <div class="mui-card-content">
 				    <div class="mui-card-content-inner">
-					    <mt-switch></mt-switch>
-                        <img src="http://img4.imgtn.bdimg.com/it/u=1258316194,557026968&fm=26&gp=0.jpg" alt="">
+					    <mt-switch v-model="$store.getters.getGoodsSelected[item.id]" @change="selectedChanged(item.id, $store.getters.getGoodsSelected[item.id])"></mt-switch>
+                        <img :src="item.thumb_path" alt="">
                         <dir class="info">
-                            <h1>aaaaaaaaa</h1>
+                            <h1>{{item.title}}</h1>
                             <p>
-                                <span class="price">￥2199</span>
-                                <numbox></numbox>
-                                <a href="#">删除</a>
+                                <span class="price">￥{{item.sell_price}}</span>
+                                <numbox :initcount="$store.getters.getGoodsCount[item.id]" :goodsid="item.id"></numbox>
+                                <a href="#" @click.prevent="remove(item.id,index)">删除</a>
                             </p>
                         </dir>
                     </div>
@@ -23,11 +23,16 @@
         <!-- 结算区域 -->
         <div class="mui-card">
 			<div class="mui-card-content">
-				<div class="mui-card-content-inner">
-					这是一个最简单的卡片视图控件；卡片视图常用来显示完整独立的一段信息，比如一篇文章的预览图、作者信息、点赞数量等
+				<div class="mui-card-content-inner jiesuan">
+                    <div class="left">
+                        <p>总计（不含运费）</p>
+                        <p>已勾选商品<span class="red">{{$store.getters.getGoodsCountAndAmount.count}}</span>件，总价<span class="red">￥{{$store.getters.getGoodsCountAndAmount.amount}}</span></p>
+                    </div>
+                    <mt-button type="danger">去结算</mt-button>
 				</div>
 			</div>
 		</div>
+
     </div>
 
     
@@ -36,6 +41,40 @@
 <script>
 import numbox from '../subcomponents/shopcar_numbox.vue'
 export default {
+    data() {
+        return {
+            goodslist: []
+        }
+    },
+
+    created() {
+        this.getGoodsList();
+    },
+
+    methods: {
+        getGoodsList() {
+            var idArr = []
+            this.$store.state.car.forEach(item => idArr.push(item.id))
+            if(idArr.length <=0 ) {
+                return ;
+            }
+            this.$http.get('api/goods/getshopcarlist/'+idArr.join(',')).then(res => {
+                if(res.body.status === 0){
+                    this.goodslist = res.body.message
+                }
+            })
+        },
+
+        remove(id,index) {
+            this.goodslist.splice(index,1)
+            this.$store.commit('removeFromCar', id)
+        },
+
+        selectedChanged(id,val) {
+            this.$store.commit('updateGoodsSelected', {id, selected: val})
+        }
+    },
+
     components: {
         numbox
     }
@@ -69,6 +108,18 @@ export default {
                 color: red;
                 font-weight: bold;
             }
+        }
+    }
+
+    .jiesuan {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .red {
+            color: red;
+            font-weight: bold;
+            font-size: 16px;
         }
     }
 }
